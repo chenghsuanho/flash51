@@ -6,7 +6,7 @@ authors = ["Chenghsuan Ho <chengxuanjhe@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.13"
+python = "^3.8,<3.13"
 pyserial = "^3.5"
 tqdm = "^4.66.1"
 
