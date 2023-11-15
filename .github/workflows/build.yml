@@ -1,0 +1,58 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ci:
+    defaults:
+      run:
+        shell: bash
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python-version: ["3.12"]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Install Dependencies
+        run: poetry install --no-interaction
+
+      - name: Build using PyInstaller
+        run: |
+          source $VENV
+          pyinstaller --onefile --clean --target-architecture=universal2 flash51.py
+
+      - name: Upload the Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: flash51-${{ runner.os }}
+          path: dist/flash51.exe
+        if: runner.os == 'Windows'
+
+      - name: Upload the Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: flash51-${{ runner.os }}
+          path: dist/flash51
+        if: runner.os != 'Windows'
