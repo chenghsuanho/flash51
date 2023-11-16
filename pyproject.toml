@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "flash51"
 version = "0.1.0"
-description = ""
+description = "A 8051 flash tool built for the Principles and Applications of Microcomputers course."
 authors = ["Chenghsuan Ho <chengxuanjhe@gmail.com>"]
 readme = "README.md"
 
