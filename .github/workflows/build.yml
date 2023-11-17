@@ -47,12 +47,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: flash51-${{ runner.os }}
-          path: dist/flash51.exe
-        if: runner.os == 'Windows'
-
-      - name: Upload the Build Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: flash51-${{ runner.os }}
-          path: dist/flash51
-        if: runner.os != 'Windows'
+          path: ${{ runner.os == 'Windows' && 'dist/flash51.exe' || 'dist/flash51' }}
