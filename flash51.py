@@ -36,7 +36,7 @@ def flash(ser: Serial, file: io.BufferedReader):
 
     # Send "P" and program length
     ser.write("P".encode(encoding="ascii"))
-    # ser.write(length.to_bytes(2, byteorder="big"))
+    ser.write(length.to_bytes(2, byteorder="big"))
     wait()
 
     program_progress_bar = tqdm(
